@@ -1,0 +1,354 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktif Komponen Komputer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: #0f1115;
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .header h1 {
+            font-size: 2.25rem;
+            color: #e2e8f0;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header .subtitle {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .header .header-decor {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+
+        .computer-case {
+            background: #1e2129;
+            border-radius: 20px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .computer-container {
+            display: flex;
+            gap: 0;
+        }
+
+        .menu {
+            flex: 0 0 260px;
+            padding: 30px;
+            background: #161920;
+            border-radius: 16px 0 0 16px;
+            border-right: 1px solid #2d313b;
+        }
+
+        .menu-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #64748b;
+            font-weight: 700;
+            margin-bottom: 24px;
+            padding-left: 12px;
+        }
+
+        .menu-item {
+            width: 100%;
+            padding: 18px 20px;
+            font-size: 15px;
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            background: transparent;
+            color: #cbd5e1;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            margin-bottom: 12px;
+            text-align: left;
+            border-left: 4px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            color: #3b82f6;
+        }
+
+        .menu-item.active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.1));
+            color: #3b82f6;
+            border-left-color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .menu-item:active {
+            transform: scale(0.98);
+        }
+
+        .menu-icon {
+            font-size: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover .menu-icon {
+            transform: scale(1.1);
+        }
+
+        .content {
+            flex: 1;
+            padding: 40px;
+            background: #1e2129;
+            border-radius: 0 16px 16px 0;
+            min-height: 420px;
+            position: relative;
+        }
+
+        .content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+        }
+
+        .content h2 {
+            font-size: 2rem;
+            color: #e2e8f0;
+            margin-bottom: 16px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .content .content-subtitle {
+            display: inline-block;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+        }
+
+        .content p {
+            line-height: 1.75;
+            font-size: 16px;
+            color: #cbd5e1;
+            text-align: left;
+        }
+
+        .content p:first-of-type {
+            margin-top: 12px;
+        }
+
+        .content p strong {
+            color: #e2e8f0;
+        }
+
+        .content .icon-large {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .placeholder {
+            color: #64748b;
+            font-style: italic;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        @media (max-width: 868px) {
+            .computer-container {
+                flex-direction: column;
+            }
+
+            .menu {
+                flex: none;
+                border-radius: 16px 16px 0 0;
+                border-right: none;
+                border-bottom: 1px solid #2d313b;
+            }
+
+            .content {
+                border-radius: 0 0 16px 16px;
+                min-height: 300px;
+                padding: 30px;
+            }
+
+            .menu-item {
+                text-align: center;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .computer-case {
+                padding: 20px;
+            }
+
+            .content {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Interaktif Komponen Komputer</h1>
+        <p class="subtitle">Pelajari fungsi dan peran setiap komponen PC secara interaktif</p>
+        <div class="header-decor"></div>
+    </div>
+
+    <div class="computer-case">
+        <div class="computer-container">
+            <div class="menu">
+                <div class="menu-title">Komponen</div>
+                <button class="menu-item active" onclick="showInfo('CPU')">
+                    <span class="menu-icon">🧠</span>
+                    <span>CPU (Prosesor)</span>
+                </button>
+                <button class="menu-item" onclick="showInfo('Motherboard')">
+                    <span class="menu-icon">🔌</span>
+                    <span>Motherboard</span>
+                </button>
+                <button class="menu-item" onclick="showInfo('RAM')">
+                    <span class="menu-icon">💾</span>
+                    <span>RAM</span>
+                </button>
+                <button class="menu-item" onclick="showInfo('Storage')">
+                    <span class="menu-icon">💾</span>
+                    <span>Storage (SSD/HDD)</span>
+                </button>
+                <button class="menu-item" onclick="showInfo('GPU')">
+                    <span class="menu-icon">🎨</span>
+                    <span>GPU (Kartu Grafis)</span>
+                </button>
+                <button class="menu-item" onclick="showInfo('PSU')">
+                    <span class="menu-icon">⚡</span>
+                    <span>Power Supply (PSU)</span>
+                </button>
+            </div>
+
+            <div class="content" id="info-panel">
+                <div class="placeholder">
+                    <span class="icon-large">🖥️</span>
+                    <p>Pilih komponen dari menu di atas untuk melihat detailnya</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dataKomponen = {
+            'CPU': { 
+                title: 'Central Processing Unit (CPU)', 
+                desc: 'Dikenal sebagai "otak" dari komputer, CPU bertanggung jawab untuk menerima, menganalisis, dan menjalankan instruksi dari perangkat lunak. CPU mengontrol semua aktivitas di dalam sistem komputer, melakukan perhitungan matematis dan logika, serta mengkoordinasikan komponen lainnya.<br><br><strong>Komponen Utama CPU:</strong><br>• <strong>ALU (Arithmetic Logic Unit)</strong>: Bertanggung jawab menjalankan semua perhitungan matematika dan operasi logika.</strong><br>• <strong>Control Unit (Unit Kontrol)</strong>: Mengatur dan mengkoordinasikan jalannya instruksi serta aliran data di dalam CPU.<br>• <strong>Register</strong>: Memori berukuran sangat kecil dengan kecepatan tinggi untuk menyimpan data atau instruksi yang sedang diproses sementara waktu.<br>• <strong>Cache Memory</strong>: Memori cepat di dalam prosesor untuk menyimpan data yang sering diakses agar tidak perlu mengambilnya berulang kali dari RAM.',
+                icon: '🧠',
+                badge: 'Processor Utama',
+            },
+            'Motherboard': { 
+                title: 'Motherboard', 
+                desc: 'Motherboard adalah papan sirkuit utama yang menjadi tulang punggung komputer. Fungsinya menghubungkan dan memfasilitasi komunikasi antar semua komponen perangkat keras (CPU, RAM, GPU, penyimpanan, dll). Motherboard menyediakan power distribution dan jalur data untuk seluruh sistem.<br><br><strong>Komponen Utama pada Motherboard:</strong><br>• <strong>Soket CPU (CPU Socket)</strong>: Tempat pemasangan prosesor. Harus sesuai dengan merek dan arsitektur CPU (contoh: soket Intel tidak bisa dipakai untuk CPU AMD)</strong><br>• <strong>Slot RAM (Memory Slots)</strong>: Tempat memasang kepingan memori Random Access Memory.</strong><br>• <strong>Chipset</strong>: Kumpulan cip pengontrol yang mengatur arus data antara CPU, RAM, dan perangkat I/O (seperti USB dan penyimpanan).</strong><br>• <strong>Slot Ekspansi (PCIe Slots)</strong>: Tempat memasang kartu tambahan seperti Graphics Card (VGA), Sound Card, atau SSD M.2.</strong><br>• <strong>Konektor Daya (Power Connectors)</strong>: Menerima kabel daya utama (24-pin dan 8-pin CPU) dari Power Supply.</strong><br>• <strong>Port I/O Belakang</strong>: Kumpulan colokan eksternal untuk menghubungkan kabel monitor, USB, audio, dan internet.',
+                icon: '🔌',
+                badge: 'Papan Utama',
+            },
+            'RAM': { 
+                title: 'Random Access Memory (RAM)', 
+                desc: 'RAM adalah memori kerja jangka pendek yang super cepat. Berfungsi menyimpan data dan instruksi dari program yang sedang aktif agar dapat diakses seketika oleh CPU tanpa harus membaca dari storage. Semakin besar RAM, semakin banyak program yang dapat berjalan secara bersamaan.',
+                icon: '💾',
+                badge: 'Memori Kerja',
+            },
+            'Storage': { 
+                title: 'Penyimpanan (SSD / HDD)', 
+                desc: 'Storage merupakan media penyimpanan permanen untuk sistem operasi, aplikasi, dan data pengguna. SSD (Solid State Drive) menawarkan kecepatan baca-tulis jauh lebih cepat dibanding HDD (Hard Disk Drive), meskipun dengan harga yang lebih tinggi per gigabyte.',
+                icon: '💾',
+                badge: 'Penyimpanan Data',
+            },
+            'GPU': { 
+                title: 'Graphics Processing Unit (GPU)', 
+                desc: 'GPU adalah prosesor khusus yang dirancang untuk mengelola dan meningkatkan kinerja grafis. Berfungsi memproses instruksi rendering gambar, video, dan animasi agar dapat ditampilkan ke monitor. GPU sangat penting untuk gaming, desain grafis, dan pemrosesan video.',
+                icon: '🎨',
+                badge: 'Kartu Grafis',
+            },
+            'PSU': { 
+                title: 'Power Supply Unit (PSU)', 
+                desc: 'PSU adalah komponen penyuplai daya yang berfungsi mengubah arus listrik bolak-balik (AC) dari stopkontak menjadi arus searah (DC) untuk memberi tenaga pada seluruh komponen komputer. PSU berkualitas tinggi sangat penting untuk stabilitas dan keamanan sistem.',
+                icon: '⚡',
+                badge: 'Catu Daya',
+            }
+        };
+
+        function showInfo(komponen) {
+            const panel = document.getElementById('info-panel');
+            const activeItem = document.querySelector('.menu-item.active');
+            
+            if (activeItem) {
+                activeItem.classList.remove('active');
+            }
+            
+            event.currentTarget.classList.add('active');
+
+            panel.innerHTML = `
+                <span class="content-subtitle">${dataKomponen[komponen].badge}</span>
+                <span class="icon-large">${dataKomponen[komponen].icon}</span>
+                <h2>${dataKomponen[komponen].title}</h2>
+                <p>${dataKomponen[komponen].desc}</p>
+            `;
+        }
+    </script>
+
+</body>
+</html>
